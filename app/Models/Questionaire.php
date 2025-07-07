@@ -8,11 +8,13 @@ class Questionaire extends Model
 {
     protected $table = 'questionaire';
 
-    protected $fillable = [
-      'contractor_id',
-      'question1_answer','question1_attachment',
-      // … sampai question13_answer, question13_attachment
-    ];
+    protected $fillable = array_merge(
+        ['contractor_id'],
+        collect(range(1, 13))->flatMap(fn ($i) => [
+            "question{$i}_answer",
+            "question{$i}_attachment",
+        ])->toArray()
+    );
 
     public function contractor()
     {
